@@ -19,8 +19,7 @@ const ProfileSchema = new Schema({
     type: String
   },
   location: {
-    type: String,
-    required: true
+    type: String
   },
   skills: {
     type: [String],
