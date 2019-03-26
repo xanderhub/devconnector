@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 
 class ProfileGithub extends Component {
@@ -23,7 +22,9 @@ class ProfileGithub extends Component {
     )
       .then(res => res.json())
       .then(data => {
-        this.setState({ repos: data });
+        if (this.refs.myRef) {
+          this.setState({ repos: data });
+        }
       })
       .catch(err => console.log(err));
   }
@@ -35,9 +36,15 @@ class ProfileGithub extends Component {
         <div className="row">
           <div className="col-md-6">
             <h4>
-              <Link to={repo.html_url} className="text-info" target="_blank">
-                {repo.name}
-              </Link>
+              {
+                <a
+                  href={repo.html_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {repo.name}
+                </a>
+              }
             </h4>
             <p>{repo.description}</p>
           </div>
@@ -55,12 +62,19 @@ class ProfileGithub extends Component {
         </div>
       </div>
     ));
+
     return (
-      <div>
-        <h1>TODO: PROFILE GITHUB</h1>
+      <div ref="myRef">
+        <hr />
+        <h3 className="mb-4">Latest Github Repos</h3>
+        {repoItems}
       </div>
     );
   }
 }
+
+ProfileGithub.propTypes = {
+  username: PropTypes.string.isRequired
+};
 
 export default ProfileGithub;
